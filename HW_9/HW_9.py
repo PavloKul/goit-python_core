@@ -7,27 +7,44 @@ def input_error(func):
             return func(*args, **kwargs)
         except IndexError:
             print('\nGive me name and/or phone please.\n')
+        except KeyError:
+            print('\nEnter user name\n')
+        except ValueError:
+            print('\nGive me name and phone please\n')
     return wrapper
 
-@input_error
-def main():
-    client_input = input('Enter command:')
-    low_client = client_input.lower()
 
+
+def exit_func(low_client):
     if low_client.strip() in exit_list:
         print('\nGood bye!\n')
         return low_client.strip()
-    elif low_client.split()[0] in command_dict:
-        message = command_dict[low_client.split()[0]](client_input)
-        
-        if message == None:
-            True
-        else:
-            print(f'\n{message}\n')
-        #print(phone_book)
-    
     else:
-        print('\nWrong enter!\nSee README.md for details.\n')
+        return False
+
+
+
+def main():
+    
+    while True:
+        client_input = input('Enter command:')
+        low_client = client_input.lower()
+        if exit_func(low_client):
+            break
+            
+        elif client_input == '':
+            print('\nWrong enter!\nSee README.md for details.\n')
+            continue
+        elif low_client.split()[0] in command_dict:
+            message = command_dict[low_client.split()[0]](client_input)
+            
+            if message == None:
+               True
+            else:
+                print(f'\n{message}\n')
+                    
+        else:
+            print('\nWrong enter!\nSee README.md for details.\n')
 
 
 @input_error
@@ -81,7 +98,7 @@ def hello_func(client_input):
 
 
 phone_book = {}
-exit_list = ["good bye", "close", "exit"]
+exit_list = ['good bye', 'close', 'exit']
 command_dict = {'add': add_func,
                 'change': change_func, 
                 'phone': phone_func, 
@@ -89,6 +106,4 @@ command_dict = {'add': add_func,
                 'hello': hello_func}
 
 
-while True:
-    if main() in exit_list:
-        break
+main()
