@@ -1,5 +1,0 @@
-input = input()
-res = float(input)
-qube_root = res**(1/3)
-print (f"result is {res}")
-print (f"qube root from {res} is {qube_root}")
